@@ -5,8 +5,19 @@ from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 import json
 
+from django.contrib.auth.models import User
 
+def crear_admin():
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='Axel',
+            email='mendozabernalaxelyael551@gmail.com',
+            password='F0RTANRTX9#'
+        )
 def dashboard(request):
+
+    # Crear admin
+    crear_admin()
     ingresos = Ingreso.objects.all()
     gastos = Gasto.objects.all()
 
