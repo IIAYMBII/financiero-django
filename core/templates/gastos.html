@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>💸 Gastos</h2>
+
+<table class="table table-dark table-striped">
+    <tr>
+        <th>Descripción</th>
+        <th>Monto</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+    </tr>
+
+    {% for g in gastos %}
+    <tr>
+        <td>{{ g.descripcion }}</td>
+        <td>${{ g.monto }}</td>
+        <td>{{ g.tipo }}</td>
+        <td>{{ g.fecha }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
