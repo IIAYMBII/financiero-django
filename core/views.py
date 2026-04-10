@@ -8,16 +8,18 @@ import json
 from django.contrib.auth.models import User
 
 def crear_admin():
-    if not User.objects.filter(username='admin').exists():
+    try:
+        User.objects.get(username='admin')
+    except User.DoesNotExist:
         User.objects.create_superuser(
-            username='Axel',
-            email='mendozabernalaxelyael551@gmail.com',
-            password='F0RTANRTX9#'
+            username='admin',
+            email='admin@gmail.com',
+            password='12345678'
         )
 def dashboard(request):
 
     # Crear admin
-    
+    crear_admin()
     ingresos = Ingreso.objects.all()
     gastos = Gasto.objects.all()
 
