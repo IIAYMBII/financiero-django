@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .wrap {
+        padding: 1.5rem 0;
+        font-family: system-ui, sans-serif;
+    }
+
+    .accent-line {
+        width: 28px;
+        height: 3px;
+        border-radius: 2px;
+        background: #2563eb;
+        margin-bottom: 8px;
+    }
+
+    .page-header h1 {
+        font-size: 17px;
+        font-weight: 600;
+        color: #f1f5f9;
+    }
+
+    .page-header p {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 3px;
+        margin-bottom: 0;
+    }
+
+    .badge-ing {
+        display: inline-flex;
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 20px;
+        background: #0d2818;
+        color: #4ade80;
+        border: 1px solid #166534;
+        font-weight: 600;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+
+    .form-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 16px;
+        padding: 1.75rem;
+        max-width: 560px;
+        margin-top: 1.5rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .full {
+        grid-column: 1 / -1;
+    }
+
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full {
+            grid-column: 1;
+        }
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .field label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    /* Estilos para los widgets de Django */
+    .field input[type="text"],
+    .field input[type="number"],
+    .field input[type="date"],
+    .field select {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 14px;
+        color: #e2e8f0;
+        outline: none;
+        transition: border-color .15s;
+        font-family: inherit;
+        width: 100%;
+    }
+
+    .field input:focus,
+    .field select:focus {
+        border-color: #22c55e;
+    }
+
+    .field input::placeholder {
+        color: #475569;
+    }
+
+    .input-icon {
+        position: relative;
+    }
+
+    .input-icon input {
+        padding-left: 28px;
+    }
+
+    .input-icon .ic {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #475569;
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+    .hint {
+        font-size: 11px;
+        color: #475569;
+    }
+
+    .preview-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #0d2818;
+        border: 1px solid #166534;
+        border-radius: 10px;
+        padding: 10px 16px;
+    }
+
+    .preview-label {
+        font-size: 11px;
+        color: #4ade80;
+        font-weight: 600;
+    }
+
+    .preview-val {
+        font-size: 18px;
+        font-weight: 700;
+        color: #4ade80;
+    }
+
+    .divider {
+        height: 1px;
+        background: #1e293b;
+        margin-top: 18px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .btn-save {
+        flex: 1;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        background: #16a34a;
+        color: #fff;
+    }
+
+    .btn-save:hover {
+        background: #15803d;
+    }
+
+    .btn-cancel {
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid #334155;
+        background: transparent;
+        color: #64748b;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-cancel:hover {
+        background: #1e293b;
+    }
+</style>
+
+<div class="wrap">
+    <div class="page-header">
+        <div class="accent-line"></div>
+        <h1>Nuevo ingreso <span class="badge-ing">Entrada</span></h1>
+        <p>Registra una entrada en tu historial financiero</p>
+    </div>
+
+    <div class="form-card">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+
+                <div class="field full">
+                    <label for="id_descripcion">Descripción</label>
+                    {{ form.descripcion }}
+                    <span class="hint">Describe brevemente la fuente del ingreso</span>
+                </div>
+
+                <div class="field">
+                    <label for="id_monto">Monto</label>
+                    <div class="input-icon">
+                        <span class="ic">$</span>
+                        {{ form.monto }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="id_fecha">Fecha</label>
+                    {{ form.fecha }}
+                </div>
+
+                <div class="full">
+                    <div class="preview-row">
+                        <span class="preview-label">Vista previa del monto</span>
+                        <span class="preview-val" id="preview">$0.00</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="divider"></div>
+            <div class="actions">
+                <a href="/" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-save">Guardar ingreso</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const montoInput = document.getElementById('id_monto');
+    const fechaInput = document.getElementById('id_fecha');
+    if (montoInput) {
+        montoInput.addEventListener('input', function () {
+            const v = parseFloat(this.value);
+            document.getElementById('preview').textContent = isNaN(v)
+                ? '$0.00'
+                : '$' + v.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        });
+    }
+    if (fechaInput && !fechaInput.value) {
+        fechaInput.value = new Date().toISOString().split('T')[0];
+    }
+</script>
+
+{% endblock %}

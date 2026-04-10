@@ -1,0 +1,465 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .db {
+        padding: 1.5rem 0;
+        font-family: system-ui, sans-serif;
+        color: #e2e8f0;
+    }
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .top-bar h1 {
+        font-size: 17px;
+        font-weight: 600;
+        color: #f1f5f9;
+    }
+
+    .badge-mes {
+        font-size: 11px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: #1e3a5f;
+        color: #60a5fa;
+        font-weight: 600;
+        border: 1px solid #2563eb44;
+    }
+
+    .accent-line {
+        width: 28px;
+        height: 3px;
+        border-radius: 2px;
+        background: #2563eb;
+        margin-bottom: 8px;
+    }
+
+    .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    @media (max-width: 768px) {
+
+        .metrics,
+        .row2 {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+    .mc {
+        border-radius: 14px;
+        padding: 1.1rem 1.25rem;
+        border: 1px solid;
+    }
+
+    .mc-ing {
+        background: #0d2818;
+        border-color: #166534;
+    }
+
+    .mc-gas {
+        background: #1f0d0d;
+        border-color: #7f1d1d;
+    }
+
+    .mc-bal {
+        background: #0c1d3a;
+        border-color: #1d4ed8;
+    }
+
+    .mc .icon-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .mc .icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ic-ing {
+        background: #14532d;
+    }
+
+    .ic-gas {
+        background: #450a0a;
+    }
+
+    .ic-bal {
+        background: #1e3a5f;
+    }
+
+    .mc .chip {
+        font-size: 10px;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-weight: 700;
+    }
+
+    .ch-ing {
+        background: #14532d;
+        color: #4ade80;
+    }
+
+    .ch-gas {
+        background: #450a0a;
+        color: #f87171;
+    }
+
+    .ch-bal {
+        background: #1e3a5f;
+        color: #60a5fa;
+    }
+
+    .mc .lbl {
+        font-size: 11px;
+        color: #94a3b8;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .mc .val {
+        font-size: 27px;
+        font-weight: 700;
+        line-height: 1.1;
+    }
+
+    .v-ing {
+        color: #4ade80;
+    }
+
+    .v-gas {
+        color: #f87171;
+    }
+
+    .v-bal {
+        color: #60a5fa;
+    }
+
+    .mc .cta {
+        display: inline-block;
+        margin-top: 11px;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 5px 14px;
+        border-radius: 8px;
+        border: 1px solid;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .cta-ing {
+        background: #14532d;
+        border-color: #166534;
+        color: #4ade80;
+    }
+
+    .cta-gas {
+        background: #450a0a;
+        border-color: #7f1d1d;
+        color: #f87171;
+    }
+
+    .cta-bal {
+        background: #1e3a5f;
+        border-color: #1d4ed8;
+        color: #60a5fa;
+    }
+
+    .section {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 14px;
+        padding: 1.25rem;
+        margin-bottom: 12px;
+    }
+
+    .sh {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    .st {
+        font-size: 13px;
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+
+    .leg-row {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 8px;
+    }
+
+    .leg-it {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: #64748b;
+    }
+
+    .leg-sq {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+    }
+
+    .chart-wrap {
+        position: relative;
+        width: 100%;
+    }
+
+    .row2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #1e293b;
+    }
+
+    .stat-row:last-child {
+        border: none;
+    }
+
+    .slbl {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .sval {
+        font-size: 13px;
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-act {
+        flex: 1;
+        min-width: 130px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid;
+    }
+
+    .ba-ing {
+        background: #14532d;
+        border-color: #166534;
+        color: #4ade80;
+    }
+
+    .ba-gas {
+        background: #450a0a;
+        border-color: #7f1d1d;
+        color: #f87171;
+    }
+
+    .ba-adm {
+        background: #1e293b;
+        border-color: #334155;
+        color: #94a3b8;
+    }
+
+    .hormiga-tag {
+        font-size: 10px;
+        padding: 3px 9px;
+        border-radius: 20px;
+        background: #1c1408;
+        color: #fbbf24;
+        font-weight: 700;
+        border: 1px solid #78350f;
+    }
+
+    .bar-bg {
+        flex: 1;
+        height: 5px;
+        border-radius: 3px;
+        background: #1e293b;
+        overflow: hidden;
+    }
+
+    .bar-fill {
+        height: 100%;
+        border-radius: 3px;
+    }
+</style>
+
+<div class="db">
+    <div class="top-bar">
+        <div>
+            <div class="accent-line"></div>
+            <h1>Dashboard financiero</h1>
+        </div>
+        <span class="badge-mes">{{ mes_actual|default:"Mes actual" }}</span>
+    </div>
+
+    <div class="metrics">
+        <div class="mc mc-ing">
+            <div class="icon-row">
+                <div class="icon ic-ing">📈</div>
+                <span class="chip ch-ing">Ingresos</span>
+            </div>
+            <p class="lbl">Total ingresos</p>
+            <p class="val v-ing">${{ total_ingresos }}</p>
+            <a href="/nuevo-ingreso/" class="cta cta-ing">+ Agregar ingreso</a>
+        </div>
+        <div class="mc mc-gas">
+            <div class="icon-row">
+                <div class="icon ic-gas">💸</div>
+                <span class="chip ch-gas">Gastos</span>
+            </div>
+            <p class="lbl">Total gastos</p>
+            <p class="val v-gas">${{ total_gastos }}</p>
+            <a href="/nuevo-gasto/" class="cta cta-gas">+ Agregar gasto</a>
+        </div>
+        <div class="mc mc-bal">
+            <div class="icon-row">
+                <div class="icon ic-bal">💰</div>
+                <span class="chip ch-bal">Balance</span>
+            </div>
+            <p class="lbl">Balance neto</p>
+            <p class="val v-bal">${{ balance }}</p>
+            <a href="/admin/" class="cta cta-bal">Panel admin</a>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="sh">
+            <span class="st">Evolución — ingresos vs gastos</span>
+        </div>
+        <div class="leg-row">
+            <span class="leg-it"><span class="leg-sq" style="background:#4ade80;"></span>Ingresos</span>
+            <span class="leg-it"><span class="leg-sq" style="border:1px dashed #f87171;"></span>Gastos</span>
+        </div>
+        <div class="chart-wrap" style="height:210px;">
+            <canvas id="cLinea" role="img" aria-label="Evolución ingresos vs gastos">Datos de tendencia.</canvas>
+        </div>
+    </div>
+
+    <div class="row2">
+        <div class="section">
+            <div class="sh"><span class="st">Por mes</span></div>
+            <div class="leg-row">
+                <span class="leg-it"><span class="leg-sq" style="background:#16a34a;"></span>Ingresos</span>
+                <span class="leg-it"><span class="leg-sq" style="background:#dc2626;"></span>Gastos</span>
+            </div>
+            <div class="chart-wrap" style="height:185px;">
+                <canvas id="cMes" role="img" aria-label="Barras mensuales">Datos mensuales.</canvas>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sh"><span class="st">Por categoría</span></div>
+            <div class="chart-wrap" style="height:185px;">
+                <canvas id="cPastel" role="img" aria-label="Distribución por categoría">Porcentajes.</canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row2">
+        <div class="section">
+            <div class="sh">
+                <span class="st">Gastos hormiga</span>
+                <span class="hormiga-tag">Atención</span>
+            </div>
+            <div class="stat-row"><span class="slbl">Total acumulado</span><span class="sval" style="color:#fbbf24;">${{
+                    total_hormiga }}</span></div>
+            <div class="stat-row"><span class="slbl">Cantidad</span><span class="sval">{{ cantidad_hormiga }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                <span style="font-size:11px;color:#64748b;">Proporción</span>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width:35%;background:#d97706;"></div>
+                </div>
+                <span style="font-size:11px;color:#fbbf24;font-weight:700;">35%</span>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sh"><span class="st">Estadísticas</span></div>
+            <div class="stat-row"><span class="slbl">Promedio ingreso</span><span class="sval"
+                    style="color:#4ade80;">${{ promedio_ingreso }}</span></div>
+            <div class="stat-row"><span class="slbl">Promedio gasto</span><span class="sval" style="color:#f87171;">${{
+                    promedio_gasto }}</span></div>
+            <div class="stat-row"><span class="slbl">Ratio ahorro</span><span class="sval"
+                    style="color:#60a5fa;">—</span></div>
+            <div class="stat-row"><span class="slbl">Categorías activas</span><span class="sval">5</span></div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-act ba-ing" onclick="location.href='/nuevo-ingreso/'">+ Nuevo ingreso</button>
+        <button class="btn-act ba-gas" onclick="location.href='/nuevo-gasto/'">+ Nuevo gasto</button>
+        <button class="btn-act ba-adm" onclick="location.href='/admin/'">Panel de administración</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const g = 'rgba(255,255,255,0.05)', tc = '#475569';
+    const tt = { backgroundColor: '#0f172a', borderColor: '#1e293b', borderWidth: 1, titleColor: '#e2e8f0', bodyColor: '#94a3b8', padding: 10, cornerRadius: 8 };
+    const base = {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, ...tt } },
+        scales: {
+            x: { grid: { color: g }, ticks: { color: tc, font: { size: 10 } }, border: { color: '#1e293b' } },
+            y: { grid: { color: g }, ticks: { color: tc, font: { size: 10 }, callback: v => '$' + v.toLocaleString() }, border: { color: '#1e293b' } }
+        }
+    };
+
+    new Chart(document.getElementById('cLinea'), { type: 'line', data: { labels: {{ fechas| safe }}, datasets: [
+        { label: 'Ingresos', data: {{ montos_ingresos| safe }}, borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.08)', tension: 0.4, fill: true, pointRadius: 3, borderWidth: 2},
+        { label: 'Gastos', data: {{ montos_gastos| safe }}, borderColor: '#f87171', backgroundColor: 'rgba(248,113,113,0.08)', tension: 0.4, fill: true, pointRadius: 3, borderWidth: 2, borderDash: [5, 3]}
+    ]}, options: { ...base }});
+
+    new Chart(document.getElementById('cMes'), { type: 'bar', data: { labels: {{ labels_mes| safe }}, datasets: [
+        { label: 'Ingresos', data: {{ datos_ingresos_mes| safe }}, backgroundColor: '#16a34a', borderRadius: 4},
+        { label: 'Gastos', data: {{ datos_gastos_mes| safe }}, backgroundColor: '#dc2626', borderRadius: 4}
+    ]}, options: { ...base, scales: { x: { grid: { display: false }, ticks: { color: tc, font: { size: 9 } }, border: { color: '#1e293b' } }, y: { grid: { color: g }, ticks: { color: tc, font: { size: 9 }, callback: v => '$' + v.toLocaleString() }, border: { color: '#1e293b' } } } }});
+
+    new Chart(document.getElementById('cPastel'), { type: 'doughnut', data: { labels: {{ labels_cat| safe }}, datasets: [{
+        data: {{ datos_cat| safe }},
+        backgroundColor: ['#2563eb', '#7c3aed', '#0891b2', '#059669', '#d97706'],
+        borderWidth: 2, borderColor: '#0f172a'
+}]}, options: {
+        responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: {
+            legend: { display: true, position: 'right', labels: { font: { size: 10 }, color: '#64748b', boxWidth: 9, padding: 8 } },
+            tooltip: { ...tt }
+        }
+    }});
+</script>
+
+{% endblock %}
