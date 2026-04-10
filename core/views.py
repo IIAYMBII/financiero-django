@@ -17,7 +17,7 @@ def crear_admin():
 def dashboard(request):
 
     # Crear admin
-    crear_admin()
+    
     ingresos = Ingreso.objects.all()
     gastos = Gasto.objects.all()
 
