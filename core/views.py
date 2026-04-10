@@ -124,11 +124,15 @@ def crear_ingreso(request):
 def crear_gasto(request):
     if request.method == 'POST':
         form = GastoForm(request.POST)
+
         if form.is_valid():
             gasto = form.save(commit=False)
             gasto.usuario = request.user
             gasto.save()
             return redirect('dashboard')
+        else:
+            print(form.errors)  # 🔥 ESTO TE DIRÁ EL ERROR
+
     else:
         form = GastoForm()
 
