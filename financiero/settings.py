@@ -33,12 +33,12 @@ if 'DATABASE_URL' in os.environ:
     }
 else:
     # 💻 LOCAL (SQLite)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+   DATABASES = {
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600
+    )
+}
 
 
 # Quick-start development settings - unsuitable for production
