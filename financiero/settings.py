@@ -12,9 +12,33 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import dj_database_url
 import os
 from pathlib import Path
+import dj_database_url
+import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import os
+import dj_database_url
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# CONFIGURACIÓN DE BASE DE DATOS
+if 'DATABASE_URL' in os.environ:
+    # 🌐 PRODUCCIÓN (Render → PostgreSQL)
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    # 💻 LOCAL (SQLite)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Quick-start development settings - unsuitable for production
@@ -77,13 +101,7 @@ WSGI_APPLICATION = 'financiero.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+
 
 
 # Password validation
