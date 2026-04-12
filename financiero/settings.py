@@ -76,13 +76,13 @@ WSGI_APPLICATION = 'financiero.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'default': dj_database_url.config(
-            default='sqlie:///db.sqlite3',
-            conn_max_age=600)
-        
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
